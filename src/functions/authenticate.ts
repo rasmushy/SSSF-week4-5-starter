@@ -22,10 +22,7 @@ export default async (req: Request) => {
     };
   }
 
-  const userFromToken = jwt.verify(
-    token,
-    process.env.JWT_SECRET as string
-  ) as UserIdWithToken;
+  const userFromToken = jwt.verify(token, process.env.JWT_SECRET as string) as UserIdWithToken;
 
   if (!userFromToken) {
     return {

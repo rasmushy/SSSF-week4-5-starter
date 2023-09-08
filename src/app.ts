@@ -7,10 +7,7 @@ import {ApolloServer} from '@apollo/server';
 import {expressMiddleware} from '@apollo/server/express4';
 import typeDefs from './api/schemas/index';
 import resolvers from './api/resolvers/index';
-import {
-  ApolloServerPluginLandingPageLocalDefault,
-  ApolloServerPluginLandingPageProductionDefault,
-} from '@apollo/server/plugin/landingPage/default';
+import {ApolloServerPluginLandingPageLocalDefault, ApolloServerPluginLandingPageProductionDefault} from '@apollo/server/plugin/landingPage/default';
 import {notFound, errorHandler} from './middlewares';
 import authenticate from './functions/authenticate';
 import {MyContext} from './interfaces/MyContext';
@@ -33,15 +30,33 @@ app.use(express.json());
 (async () => {
   try {
     // TODO Create a rate limit rule instance
-
+    const rateLimitRule = createRateLimitRule({
+      identifyContext: (ctx) => ctx.id,
+    });
     // TODO Create a permissions object
-
+    const permissions = shield({
+      Mutation: {
+        login: rateLimitRule({window: '1s', max: 5}),
+      },
+    });
     // TODO Apply the permissions object to the schema
     // remember to change the typeDefs and resolvers to a schema object
+    const schema = applyMiddleware(
+      makeExecutableSchema({
+        typeDefs,
+        resolvers,
+      }),
+      permissions
+    );
 
+    app.use(
+      helmet({
+        crossOriginEmbedderPolicy: false,
+        contentSecurityPolicy: false,
+      })
+    );
     const server = new ApolloServer<MyContext>({
-      typeDefs,
-      resolvers,
+      schema,
       introspection: true,
       plugins: [
         process.env.NODE_ENV === 'production'
@@ -56,6 +71,8 @@ app.use(express.json());
 
     app.use(
       '/graphql',
+      express.json(),
+      cors<cors.CorsRequest>(),
       expressMiddleware(server, {
         context: async ({req}) => authenticate(req),
       })

@@ -1,14 +1,5 @@
 import app from '../src/app';
-import {
-  adminDeleteUser,
-  deleteUser,
-  getSingleUser,
-  getUser,
-  loginBrute,
-  loginUser,
-  postUser,
-  putUser,
-} from './userFunctions';
+import {adminDeleteUser, deleteUser, getSingleUser, getUser, loginBrute, loginUser, postUser, putUser} from './userFunctions';
 import {UserTest} from '../src/interfaces/User';
 import mongoose from 'mongoose';
 import {getNotFound} from './testFunctions';
@@ -98,10 +89,7 @@ describe('Testing graphql api', () => {
 
   // make sure token has role (so that we can test if user is admin or not)
   it('token should have role', async () => {
-    const dataFromToken = jwt.verify(
-      userData.token!,
-      process.env.JWT_SECRET as string
-    );
+    const dataFromToken = jwt.verify(userData.token!, process.env.JWT_SECRET as string);
     expect(dataFromToken).toHaveProperty('role');
   });
 
@@ -137,7 +125,7 @@ describe('Testing graphql api', () => {
   // test post cat data
   let catID1: string;
   it('should post cat data with file and location', async () => {
-    console.log(catData1);
+    //console.log(catData1);
     const cat = await postCat(app, catData1, userData.token!);
     catID1 = cat.id!;
   });

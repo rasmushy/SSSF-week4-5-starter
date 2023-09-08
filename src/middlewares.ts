@@ -8,12 +8,7 @@ const notFound = (req: Request, res: Response, next: NextFunction) => {
   next(error);
 };
 
-const errorHandler = (
-  err: CustomError,
-  req: Request,
-  res: Response<ErrorResponse>,
-  next: NextFunction
-) => {
+const errorHandler = (err: CustomError, req: Request, res: Response<ErrorResponse>, next: NextFunction) => {
   console.error('errorHandler', err.message);
   res.status(err.status || 500);
   res.json({

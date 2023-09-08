@@ -36,10 +36,7 @@ mutation CreateCat($catName: String!, $weight: Float!, $birthdate: DateTime!, $o
 }
 */
 
-const postFile = (
-  url: string | Function,
-  token: string
-): Promise<UploadMessageResponse> => {
+const postFile = (url: string | Function, token: string): Promise<UploadMessageResponse> => {
   return new Promise((resolve, reject) => {
     request(url)
       .post('/upload')
@@ -54,9 +51,7 @@ const postFile = (
           expect(uploadMessageResponse).toHaveProperty('data');
           expect(uploadMessageResponse.data).toHaveProperty('filename');
           expect(uploadMessageResponse.data).toHaveProperty('location');
-          expect(uploadMessageResponse.data.location).toHaveProperty(
-            'coordinates'
-          );
+          expect(uploadMessageResponse.data.location).toHaveProperty('coordinates');
           expect(uploadMessageResponse.data.location).toHaveProperty('type');
           resolve(uploadMessageResponse);
         }
@@ -64,11 +59,7 @@ const postFile = (
   });
 };
 
-const postCat = (
-  url: string | Function,
-  cat: CatTest,
-  token: string
-): Promise<CatTest> => {
+const postCat = (url: string | Function, cat: CatTest, token: string): Promise<CatTest> => {
   return new Promise((resolve, reject) => {
     request(url)
       .post('/graphql')
@@ -265,12 +256,7 @@ mutation UpdateCat($updateCatId: ID!, $catName: String, $weight: Float, $birthda
 }
 */
 
-const userPutCat = (
-  url: string | Function,
-  cat: CatTest,
-  id: string,
-  token: string
-): Promise<CatTest> => {
+const userPutCat = (url: string | Function, cat: CatTest, id: string, token: string): Promise<CatTest> => {
   return new Promise((resolve, reject) => {
     request(url)
       .post('/graphql')
@@ -303,12 +289,7 @@ const userPutCat = (
   });
 };
 
-const wrongUserPutCat = (
-  url: string | Function,
-  cat: CatTest,
-  id: string,
-  token: string
-): Promise<CatTest> => {
+const wrongUserPutCat = (url: string | Function, cat: CatTest, id: string, token: string): Promise<CatTest> => {
   return new Promise((resolve, reject) => {
     request(url)
       .post('/graphql')
@@ -339,12 +320,7 @@ const wrongUserPutCat = (
   });
 };
 
-const adminPutCat = (
-  url: string | Function,
-  cat: CatTest,
-  id: string,
-  token: string
-): Promise<CatTest> => {
+const adminPutCat = (url: string | Function, cat: CatTest, id: string, token: string): Promise<CatTest> => {
   return new Promise((resolve, reject) => {
     request(url)
       .post('/graphql')
@@ -382,11 +358,7 @@ mutation DeleteCat($deleteCatId: ID!) {
 }
 */
 
-const userDeleteCat = (
-  url: string | Function,
-  id: string,
-  token: string
-): Promise<CatTest> => {
+const userDeleteCat = (url: string | Function, id: string, token: string): Promise<CatTest> => {
   return new Promise((resolve, reject) => {
     request(url)
       .post('/graphql')
@@ -414,11 +386,7 @@ const userDeleteCat = (
   });
 };
 
-const adminDeleteCat = (
-  url: string | Function,
-  id: string,
-  token: string
-): Promise<CatTest> => {
+const adminDeleteCat = (url: string | Function, id: string, token: string): Promise<CatTest> => {
   return new Promise((resolve, reject) => {
     request(url)
       .post('/graphql')
@@ -446,11 +414,7 @@ const adminDeleteCat = (
   });
 };
 
-const wrongUserDeleteCat = (
-  url: string | Function,
-  id: string,
-  token: string
-): Promise<CatTest> => {
+const wrongUserDeleteCat = (url: string | Function, id: string, token: string): Promise<CatTest> => {
   return new Promise((resolve, reject) => {
     request(url)
       .post('/graphql')
@@ -500,10 +464,7 @@ query CatsByOwner($ownerId: ID!) {
 }
 */
 
-const getCatByOwner = (
-  url: string | Function,
-  id: string
-): Promise<CatTest[]> => {
+const getCatByOwner = (url: string | Function, id: string): Promise<CatTest[]> => {
   return new Promise((resolve, reject) => {
     request(url)
       .post('/graphql')
@@ -568,10 +529,7 @@ query CatsByArea($topRight: Coordinates!, $bottomLeft: Coordinates!) {
 }
 */
 
-const getCatByBoundingBox = (
-  url: string | Function,
-  location: locationInput
-): Promise<CatTest[]> => {
+const getCatByBoundingBox = (url: string | Function, location: locationInput): Promise<CatTest[]> => {
   return new Promise((resolve, reject) => {
     request(url)
       .post('/graphql')

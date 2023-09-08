@@ -10,7 +10,8 @@
     "copyGraphql": "copyfiles --error src/api/schemas/*.graphql dist",
     "postbuild": "npm run copyGraphql",
     "lint": "eslint --fix src test",
-    "test": "jest --detectOpenHandles --forceExit"
+    "test": "jest --detectOpenHandles --forceExit",
+    "prettier": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\""
   },
   "keywords": [],
   "repository": {

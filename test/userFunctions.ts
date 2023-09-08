@@ -39,10 +39,7 @@ query UserById($userByIdId: ID!) {
   }
 }
 */
-const getSingleUser = (
-  url: string | Function,
-  id: string
-): Promise<UserTest> => {
+const getSingleUser = (url: string | Function, id: string): Promise<UserTest> => {
   return new Promise((resolve, reject) => {
     request(url)
       .post('/graphql')
@@ -85,10 +82,7 @@ mutation Mutation($user: UserInput!) {
   }
 }
 */
-const postUser = (
-  url: string | Function,
-  user: UserTest
-): Promise<UserTest> => {
+const postUser = (url: string | Function, user: UserTest): Promise<UserTest> => {
   return new Promise((resolve, reject) => {
     request(url)
       .post('/graphql')
@@ -142,10 +136,7 @@ mutation Login($credentials: Credentials!) {
 }
 */
 
-const loginUser = (
-  url: string | Function,
-  user: UserTest
-): Promise<LoginMessageResponse> => {
+const loginUser = (url: string | Function, user: UserTest): Promise<LoginMessageResponse> => {
   return new Promise((resolve, reject) => {
     request(url)
       .post('/graphql')
@@ -173,7 +164,7 @@ const loginUser = (
         if (err) {
           reject(err);
         } else {
-          console.log('login response', response.body);
+          //console.log('login response', response.body);
           const userData = response.body.data.login;
           expect(userData).toHaveProperty('message');
           expect(userData).toHaveProperty('token');
@@ -186,10 +177,7 @@ const loginUser = (
   });
 };
 
-const loginBrute = (
-  url: string | Function,
-  user: UserTest
-): Promise<boolean> => {
+const loginBrute = (url: string | Function, user: UserTest): Promise<boolean> => {
   return new Promise((resolve, reject) => {
     request(url)
       .post('/graphql')
@@ -217,10 +205,7 @@ const loginBrute = (
         if (err) {
           reject(err);
         } else {
-          if (
-            response.body.errors?.[0]?.message ===
-            "You are trying to access 'login' too often"
-          ) {
+          if (response.body.errors?.[0]?.message === "You are trying to access 'login' too often") {
             console.log('brute blocked', response.body.errors[0].message);
             resolve(true);
           } else {
@@ -296,10 +281,7 @@ mutation DeleteUser {
 }
 */
 
-const deleteUser = (
-  url: string | Function,
-  token: string
-): Promise<ErrorResponse> => {
+const deleteUser = (url: string | Function, token: string): Promise<ErrorResponse> => {
   return new Promise((resolve, reject) => {
     request(url)
       .post('/graphql')
@@ -329,11 +311,7 @@ const deleteUser = (
   });
 };
 
-const adminDeleteUser = (
-  url: string | Function,
-  id: string,
-  token: string
-): Promise<ErrorResponse> => {
+const adminDeleteUser = (url: string | Function, id: string, token: string): Promise<ErrorResponse> => {
   return new Promise((resolve, reject) => {
     request(url)
       .post('/graphql')
@@ -362,11 +340,7 @@ const adminDeleteUser = (
   });
 };
 
-const wrongUserDeleteUser = (
-  url: string | Function,
-  id: string,
-  token: string
-): Promise<ErrorResponse> => {
+const wrongUserDeleteUser = (url: string | Function, id: string, token: string): Promise<ErrorResponse> => {
   return new Promise((resolve, reject) => {
     request(url)
       .post('/graphql')
@@ -395,14 +369,4 @@ const wrongUserDeleteUser = (
   });
 };
 
-export {
-  getUser,
-  getSingleUser,
-  postUser,
-  putUser,
-  deleteUser,
-  loginUser,
-  loginBrute,
-  adminDeleteUser,
-  wrongUserDeleteUser,
-};
+export {getUser, getSingleUser, postUser, putUser, deleteUser, loginUser, loginBrute, adminDeleteUser, wrongUserDeleteUser};
